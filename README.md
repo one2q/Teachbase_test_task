@@ -28,22 +28,19 @@
 1) ```git clone https://github.com/Teachbase_test_task```
 2) переименуйте **.env.example** файл на **.env**
 3) ```docker-compose up -d --build```
-4) http://127.0.0.1:8000
+4) http://127.0.0.1:8000/swagger/
+
+### Flow проверки задания
+Для проверки работы приложения предлагаю использовать swagger
 
 ### Документация 
 - swagger  url http://127.0.0.1:8000/swagger/
 
 
 ##### Создание суперпользователя
-Для создания пользователя используйте команды:
+Для создания суперпользователя пользователя используйте команды:
 ```
 docker-compose exec web bash
 python manage.py createsuperuser
-```
-
-### Запуск тестов
-```
-docker-compose exec web bash
-pytest
 ```
 
