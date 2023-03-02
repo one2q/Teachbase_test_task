@@ -12,6 +12,8 @@ services:
 
   web:
     build: .
+    volumes:
+      - .:/web/data
     container_name: teachbase_app
     command: bash entrypoint.sh
     ports:
