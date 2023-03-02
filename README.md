@@ -13,20 +13,20 @@
 4) https://go.teachbase.ru/api-docs/index.html#/course_sessions/post_course_sessions__session_id__register - запись пользователя на сессию
 5) https://go.teachbase.ru/api-docs/index.html#/course_sessions/get_courses__course_id__course_sessions - сессии курсов
 ##### Создать модель курса с сохранение данных из Teachbase (*).
-- DRF. 
-##### Реализовать метод для получения данных курса из модели Django (*).
+
+##### DRF. Реализовать метод для получения данных курса из модели Django (*).
 - Список всех курсов - /courses/
 - Детальное представление курса - /courses/<id>
 
 
 ### Зависимости
 
-- Django - 4.1.6
+- Django - 4.1.7
 - djangorestframework - 3.14.0
 
 ### Запуск приложения
-1) ```git clone https://github.com/teachbase_test_task```
-2) переименуйте **.env.ci** файл на **.env**
+1) ```git clone https://github.com/Teachbase_test_task```
+2) переименуйте **.env.example** файл на **.env**
 3) ```docker-compose up -d --build```
 4) http://127.0.0.1:8000
 

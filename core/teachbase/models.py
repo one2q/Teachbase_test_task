@@ -2,15 +2,15 @@ from django.db import models
 
 
 class CustomUser(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, null=True, blank=True)
     last_name = models.CharField(max_length=150, null=True, blank=True)
-    phone = models.IntegerField(null=True, blank=True)
+    phone = models.CharField(max_length=12)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(auto_now=True)
     email = models.EmailField(max_length=255, unique=True)
     password = models.CharField(max_length=150)
     lang = models.CharField(max_length=3, null=True, blank=True)
-    external_id = models.CharField(max_length=150, null=True, blank=True)
+    external_id = models.CharField(max_length=150)
     role_id = models.IntegerField(null=True, blank=True)
     auth_type = models.IntegerField(null=True, blank=True)
     labels = models.JSONField(null=True, blank=True)

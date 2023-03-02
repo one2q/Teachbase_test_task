@@ -22,6 +22,17 @@ class TeachbaseClient:
 		self.token_data = None
 		self.token = None
 
+	@staticmethod
+	def _make_requests(method: str, headers, url, json=None, data=None):
+		try:
+			if method == 'GET':
+				response = requests.get(url=url, headers=headers)
+			elif method == 'POST':
+				response = requests.post(url=url, headers=headers, json=json, data=data)
+			return response.json()
+		except requests.exceptions.RequestException as e:
+			raise TeachbaseException(str(e))
+
 	def authentication(self) -> None:
 		path: str = "oauth/token/"
 		url = self.base_url + path
@@ -84,25 +95,35 @@ class TeachbaseClient:
 			for i in range(len(types)):
 				url += f"&types%5B%5D={types[i]}"
 
-		response = requests.get(
+		response = self._make_requests(
+				method="GET",
 				url=url,
 				headers=self.headers,
 		)
-		return response.json()
+		return response
 
 	@refresh_token
 	def get_course_detail(self, pk: int = 55894) -> Dict[str, Union[str, int]]:
 		path: str = "courses/"
 		url = self.base_url + self.api_endpoint + path + f"{pk}"
 
-		response = requests.get(
+		response = self._make_requests(
+				method="GET",
 				url=url,
 				headers=self.headers,
 		)
-		return response.json()
+		return response
 
 	@refresh_token
 	def create_user(self, json: dict) -> Dict[str, Union[str, int, dict]]:
+		"""
+			:param json: {
+							"email": "email_1_2@factory.tb",
+							"phone": "+79217778866",
+							"password": "string",
+							"external_id": "string"
+						}
+		"""
 		path: str = "users/create"
 		url = self.base_url + self.api_endpoint + path
 		headers = {
@@ -110,12 +131,13 @@ class TeachbaseClient:
 		}
 		headers.update(self.headers)
 
-		response = requests.post(
+		response = self._make_requests(
+				method="POST",
 				json=json,
 				url=url,
 				headers=headers,
 		)
-		return response.json()
+		return response
 
 	@refresh_token
 	def register_user_for_session(self, json: dict, session_pk: int = 495682):
@@ -123,7 +145,8 @@ class TeachbaseClient:
 		:param json: {
 						"email": "email_1_2@factory.tb",
 						"phone": 792177788666,
-						"user_id": 334
+						"external_id": "string"
+						"user_id": int
 					}
 		"""
 
@@ -134,12 +157,13 @@ class TeachbaseClient:
 		}
 		headers.update(self.headers)
 
-		response = requests.post(
+		response = self._make_requests(
+				method="POST",
 				json=json,
 				url=url,
 				headers=headers,
 		)
-		return response.json()
+		return response
 
 	@refresh_token
 	def get_courses_sessions_list(
@@ -163,11 +187,12 @@ class TeachbaseClient:
 			for i in range(len(participant_ids)):
 				url += f"&participant_ids%5B%5D={participant_ids[i]}"
 
-		response = requests.get(
+		response = self._make_requests(
+				method="GET",
 				url=url,
 				headers=self.headers,
 		)
-		return response.json()
+		return response
 
 
 #####################################################################
@@ -196,13 +221,9 @@ usr = {
 	},
 }
 #
-a = TeachbaseClient(client_id=key, client_secret=secret, base_url=bas_url)
-# a.authentication()
-
-get_course_list = a.register_user_for_session(json={
-						"email": "email_1_2@factory.tb",
-						"phone": 792177788666,
-						"user_id": 334
-					})
-
-print(get_course_list)
+# a = TeachbaseClient(client_id=key, client_secret=secret, base_url=bas_url)
+# # a.authentication()
+#
+# get_course_list = a.get_courses_sessions_list()
+#
+# print(get_course_list)
