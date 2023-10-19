@@ -16,16 +16,16 @@ class CreateUserView(CreateAPIView, ListAPIView):
 
     @swagger_auto_schema(
         operation_summary="Invite users to account",
-		    request_body=openapi.Schema(
-				    type=openapi.TYPE_OBJECT,
-				    properties={
-					    'email':  openapi.Schema(type=openapi.TYPE_STRING, format='email'),
-					    'password': openapi.Schema(type=openapi.TYPE_STRING),
-					    'phone':   openapi.Schema(type=openapi.TYPE_INTEGER),
-					    'external_id': openapi.Schema(type=openapi.TYPE_STRING)
-				    },
-				    required=['password', 'email', 'phone']
-		    )
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "email": openapi.Schema(type=openapi.TYPE_STRING, format="email"),
+                "password": openapi.Schema(type=openapi.TYPE_STRING),
+                "phone": openapi.Schema(type=openapi.TYPE_INTEGER),
+                "external_id": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+            required=["password", "email", "phone"],
+        ),
     )
     def post(self, request, *args, **kwargs):
         client = TeachbaseClient(
